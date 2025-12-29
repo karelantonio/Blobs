@@ -1,6 +1,7 @@
 def main():
-    print("Hello from metal-blobs!")
-
+    from core import MainApp
+    MainApp().run()
 
 if __name__ == "__main__":
     main()
+

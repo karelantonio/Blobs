@@ -1,0 +1,35 @@
+#:kivy 2.3.1
+
+# A Blob, its just a sad creature either of artificial materials
+# or flesh.
+<Blob>:
+    size: 50, 50
+    canvas:
+        Ellipse:
+            pos: self.pos
+            size: self.size
+
+# Here we should show the "Start" button, the "Load JSON" button and the "About" button
+<StartScreen>:
+    anchor_x: 'center'
+    anchor_y: 'center'
+    canvas.before:
+        # The background image
+        Rectangle:
+            pos: self.pos
+            size: self.size
+            source: "res/start-background.jpg"
+
+
+    # The three buttons
+    BoxLayout:
+        orientation: 'vertical'
+        spacing: dp(10)
+        size_hint: (0.4, 0.5)
+
+        Button:
+            text: 'Start/Continue'
+        Button:
+            text: 'Load JSON'
+        Button:
+            text: 'About'
