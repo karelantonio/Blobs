@@ -1,0 +1,39 @@
+
+# Increasing statistics
+
+[energy]
+name = "Energy"
+description = "Can be used to generate/improve energy generation in the"
+
+[water]
+name = "Water"
+description = "Can be used by a blob to improve water generation rate"
+
+[food]
+name = "Food"
+description = "Increase the food generation rate"
+
+# Blob-specific reosurces
+
+[heal]
+name = "Heal"
+description = "Can be used by a blob to heal itself"
+
+[damage]
+name = "Damage"
+description = "Can be used by a blob to cause more damage to other blobs"
+
+[luck]
+name = "Luck"
+description = "Increase the chance of obtaining resources by a blob sent to the outside"
+
+[empathy]
+name = "Empathy"
+description = "Makes a metal blob look more like a real (flesh) blob"
+
+# Ad hoc resources
+
+[kipple]
+name = "Kipple"
+description = "Reduces the kipple"
+
