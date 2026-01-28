@@ -12,6 +12,14 @@ class StartScreen(Screen):
     pass
 
 
+class OverviewScreen(Screen):
+    pass
+
+
+class AboutScreen(Screen):
+    pass
+
+
 class RootWidget(ScreenManager):
     state = ObjectProperty(State())
 
