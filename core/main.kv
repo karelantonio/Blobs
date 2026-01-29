@@ -2,6 +2,13 @@
 
 # Contains all the screens
 <RootWidget>:
+    canvas.before:
+        # The background image
+        Rectangle:
+            pos: self.pos
+            size: self.size
+            source: "res/start-background.jpg"
+
     StartScreen:
         name: 'start'
     OverviewScreen:
@@ -23,41 +30,67 @@
     AnchorLayout:
         anchor_x: 'center'
         anchor_y: 'center'
-        canvas.before:
-            # The background image
-            Rectangle:
-                pos: self.pos
-                size: self.size
-                source: "res/start-background.jpg"
 
 
         # The three buttons
-        BoxLayout:
+        MDBoxLayout:
+            style: 'elevated'
             orientation: 'vertical'
             spacing: dp(10)
             size_hint: (0.4, 0.3)
 
-            MaterialButton:
-                text: 'Start/Continue'
+            MDButton:
                 on_press: root.manager.current = "overview"
-            MaterialButton:
-                text: 'About'
+                pos_hint: {"center_x": .5}
+
+                MDButtonIcon:
+                    icon: 'arrow-right'
+                MDButtonText:
+                    text: 'Start/Continue'
+
+            MDButton:
                 on_press: root.manager.current = "about"
+                pos_hint: {"center_x": .5}
+
+                MDButtonIcon:
+                    icon: 'information-outline'
+                MDButtonText:
+                    text: 'About'
 
 # The overview widget
 <OverviewScreen>:
+    BoxLayout:
+        orientation: 'vertical'
+
+        BoxLayout:
+            id: events_top_bar
+            size_hint_y: None
+            height: dp(56)
+            padding: dp(8)
+            spacing: dp(8)
+
+            MDButton:
+                on_press: root.manager.current = 'start'
+                MDButtonText:
+                    text: "Go back"
+
+            Label:
+                text: "Event list"
+                font_size: dp(26)
+                color: '#000000'
+
+            MDButton:
+                #on_press: root.manager.current = '???'
+                MDButtonText:
+                    text: "New Event"
+
+
 
 # Brief description of the project
 <AboutScreen>:
     AnchorLayout:
         anchor_x: 'center'
         anchor_y: 'center'
-        canvas.before:
-            # The background image
-            Rectangle:
-                pos: self.pos
-                size: self.size
-                source: "res/start-background.jpg"
 
         BoxLayout:
             orientation: 'vertical'
@@ -73,15 +106,9 @@
                 font_size: sp(24)
                 text: '1st semester programming project'
 
-            MaterialButton:
-                text: 'Go back'
+            MDButton:
                 on_press: root.manager.current = "start"
+                MDButtonText:
+                    text: 'Go back'
 
 
-
-# Utilities
-<MaterialButton>:
-    color: '#000000'
-    font_size: sp(24)
-    background_normal: 'res/material-button-normal.9.png'
-    background_down: 'res/material-button-down.9.png'

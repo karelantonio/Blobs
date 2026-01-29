@@ -1,30 +1,31 @@
-from kivy.app import App
+from kivymd.app import MDApp
+from kivymd.uix.screen import MDScreen
+from kivymd.uix.screenmanager import MDScreenManager
 from kivy.uix.widget import Widget
 from kivy.uix.anchorlayout import AnchorLayout
-from kivy.uix.screenmanager import Screen, ScreenManager
 from kivy.properties import ObjectProperty
 
 from .common import *
 from .state import *
 
 
-class StartScreen(Screen):
+class StartScreen(MDScreen):
     pass
 
 
-class OverviewScreen(Screen):
+class OverviewScreen(MDScreen):
     pass
 
 
-class AboutScreen(Screen):
+class AboutScreen(MDScreen):
     pass
 
 
-class RootWidget(ScreenManager):
+class RootWidget(MDScreenManager):
     state = ObjectProperty(State())
 
 
-class MainApp(App):
+class MainApp(MDApp):
     rootw = None
 
     def build(self):
