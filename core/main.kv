@@ -56,33 +56,45 @@
                     icon: 'information-outline'
                 MDButtonText:
                     text: 'About'
+            
+            MDButton:
+                on_press: app.switch_theme()
+                pos_hint: {"center_x": .5}
+
+                MDButtonIcon:
+                    icon: 'theme-light-dark'
+                MDButtonText:
+                    text: 'Switch light/dark theme'
 
 # The overview widget
 <OverviewScreen>:
     BoxLayout:
         orientation: 'vertical'
 
-        BoxLayout:
+        MDTopAppBar:
+            type: 'small'
             id: events_top_bar
-            size_hint_y: None
-            height: dp(56)
-            padding: dp(8)
-            spacing: dp(8)
+            pos_hint: {"center_x": .5, "center_y": .5}
 
-            MDButton:
-                on_press: root.manager.current = 'start'
-                MDButtonText:
-                    text: "Go back"
+            MDTopAppBarLeadingButtonContainer:
+                MDActionTopAppBarButton:
+                    on_press: root.manager.current = 'start'
+                    icon: 'arrow-left'
+
+            MDTopAppBarTitle:
+                text: "Event list"
+                halign: 'center'
+
+            MDTopAppBarTrailingButtonContainer:
+                MDActionTopAppBarButton:
+                    icon: 'plus'
+        # ^^^ end of the Top Bar
+        
+        BoxLayout:
+            orientation: 'vertical'
 
             Label:
-                text: "Event list"
-                font_size: dp(26)
-                color: '#000000'
-
-            MDButton:
-                #on_press: root.manager.current = '???'
-                MDButtonText:
-                    text: "New Event"
+                text: 'hello! world?'
 
 
 

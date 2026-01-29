@@ -31,3 +31,8 @@ class MainApp(MDApp):
     def build(self):
         self.rootw = RootWidget()
         return self.rootw
+
+    def switch_theme(self):
+        self.theme_cls.theme_style = (
+            "Dark" if self.theme_cls.theme_style == "Light" else "Light"
+        )
