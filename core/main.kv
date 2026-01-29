@@ -15,6 +15,8 @@
         name: 'overview'
     AboutScreen
         name: 'about'
+    NewEventScreen:
+        name: 'new_event'
 
 # A Blob, its just a sad creature either of artificial materials
 # or flesh.
@@ -40,7 +42,7 @@
             size_hint: (0.4, 0.3)
 
             MDButton:
-                on_press: root.manager.current = "overview"
+                on_release: root.manager.current = "overview"
                 pos_hint: {"center_x": .5}
 
                 MDButtonIcon:
@@ -49,7 +51,7 @@
                     text: 'Start/Continue'
 
             MDButton:
-                on_press: root.manager.current = "about"
+                on_release: root.manager.current = "about"
                 pos_hint: {"center_x": .5}
 
                 MDButtonIcon:
@@ -58,7 +60,7 @@
                     text: 'About'
             
             MDButton:
-                on_press: app.switch_theme()
+                on_release: app.switch_theme()
                 pos_hint: {"center_x": .5}
 
                 MDButtonIcon:
@@ -73,12 +75,11 @@
 
         MDTopAppBar:
             type: 'small'
-            id: events_top_bar
             pos_hint: {"center_x": .5, "center_y": .5}
 
             MDTopAppBarLeadingButtonContainer:
                 MDActionTopAppBarButton:
-                    on_press: root.manager.current = 'start'
+                    on_release: root.manager.current = 'start'
                     icon: 'arrow-left'
 
             MDTopAppBarTitle:
@@ -87,6 +88,7 @@
 
             MDTopAppBarTrailingButtonContainer:
                 MDActionTopAppBarButton:
+                    on_release: root.manager.current = 'new_event'
                     icon: 'plus'
         # ^^^ end of the Top Bar
         
@@ -119,8 +121,71 @@
                 text: '1st semester programming project'
 
             MDButton:
-                on_press: root.manager.current = "start"
+                on_release: root.manager.current = "start"
                 MDButtonText:
                     text: 'Go back'
 
 
+# New event screen
+<NewEventScreen>:
+    BoxLayout:
+        orientation: 'vertical'
+        
+        MDTopAppBar:
+            type: 'small'
+            pos_hint: {"center_x": .5, "center_y": .5}
+
+            MDTopAppBarLeadingButtonContainer:
+                MDActionTopAppBarButton:
+                    on_release: root.manager.current = 'overview'
+                    icon: 'arrow-left'
+
+            MDTopAppBarTitle:
+                text: "New Event"
+                halign: 'center'
+
+            MDTopAppBarTrailingButtonContainer:
+                MDActionTopAppBarButton:
+                    on_release: root.manager.current = 'new_event'
+                    icon: 'check'
+
+        BoxLayout:
+            orientation: 'horizontal'
+            
+            # The left information panel
+            MDScrollView:
+                do_scroll_x: False
+
+                MDBoxLayout:
+                    orientation: 'vertical'
+                    adaptive_height: True
+                    padding: dp(8)
+
+                    MDCard:
+                        radius: dp(36)
+                        adaptive_height: True
+
+                        MDBoxLayout:
+                            orientation: 'horizontal'
+
+                            FitImage:
+                                size_hint: .3, 1
+                                source: root.event_tpl.icon
+                                radius: dp(36), 0, 0, dp(36)
+
+                            Widget:
+                                size_hint_x: None
+                                width: dp(8)
+
+                            MDBoxLayout:
+                                orientation: 'vertical'
+
+                                Widget:
+                                    size_hint_y: None
+                                    height: dp(8)
+
+                                MDLabel:
+                                    text: root.event_tpl.name
+
+                                MDLabel:
+                                    text: root.event_tpl.description

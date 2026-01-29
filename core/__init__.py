@@ -1,12 +1,15 @@
 from kivymd.app import MDApp
 from kivymd.uix.screen import MDScreen
 from kivymd.uix.screenmanager import MDScreenManager
+from kivymd.uix.recycleview import MDRecycleView
 from kivy.uix.widget import Widget
 from kivy.uix.anchorlayout import AnchorLayout
 from kivy.properties import ObjectProperty
 
 from .common import *
 from .state import *
+from .resources import RESOURCES
+from .events import EVENTS
 
 
 class StartScreen(MDScreen):
@@ -19,6 +22,9 @@ class OverviewScreen(MDScreen):
 
 class AboutScreen(MDScreen):
     pass
+
+class NewEventScreen(MDScreen):
+    event_tpl = ObjectProperty(EVENTS[0])
 
 
 class RootWidget(MDScreenManager):
