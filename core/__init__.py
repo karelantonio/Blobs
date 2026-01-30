@@ -9,7 +9,6 @@ from kivy.properties import ListProperty, ObjectProperty, StringProperty
 from kivy.uix.widget import Widget
 from kivy.uix.anchorlayout import AnchorLayout
 
-from .common import *
 from .state import *
 from .resources import RESOURCES
 from .events import EVENTS
