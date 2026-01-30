@@ -36,16 +36,17 @@
                     padding: dp(8)
 
                     MDCard:
-                        radius: dp(36)
+                        radius: dp(26)
                         adaptive_height: True
+                        on_release: root.show_event_chooser_dialog()
 
                         MDBoxLayout:
                             orientation: 'horizontal'
 
                             FitImage:
                                 size_hint: .3, 1
-                                source: root.event_tpl.icon
-                                radius: dp(36), 0, 0, dp(36)
+                                source: root.event_tpl_icon
+                                radius: dp(24), 0, 0, dp(24)
 
                             Widget:
                                 size_hint_x: None
@@ -59,7 +60,25 @@
                                     height: dp(8)
 
                                 MDLabel:
-                                    text: root.event_tpl.name
+                                    text: root.event_tpl_name
 
                                 MDLabel:
-                                    text: root.event_tpl.description
+                                    text: root.event_tpl_description
+
+<EventChooserDialog>:
+    MDDialogHeadlineText:
+        text: 'Select an event template'
+
+    MDDialogContentContainer:
+        orientation: 'vertical'
+        id: 'container'
+    
+<EventChooserDialogItem>:
+    on_release: self.selected()
+
+    MDListItemLeadingAvatar:
+        source: root.image
+
+    MDListItemSupportingText:
+        text: root.title
+
