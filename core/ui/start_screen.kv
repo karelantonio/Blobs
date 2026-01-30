@@ -1,0 +1,43 @@
+#:kivy 2.3.1
+
+# Here we should show the "Start" button, the "Load JSON" button and the "About" button
+<StartScreen@MDScreen>:
+    AnchorLayout:
+        anchor_x: 'center'
+        anchor_y: 'center'
+
+
+        # The three buttons
+        MDBoxLayout:
+            style: 'elevated'
+            orientation: 'vertical'
+            spacing: dp(10)
+            size_hint: (0.4, 0.3)
+
+            MDButton:
+                on_release: root.manager.current = "overview"
+                pos_hint: {"center_x": .5}
+
+                MDButtonIcon:
+                    icon: 'arrow-right'
+                MDButtonText:
+                    text: 'Start/Continue'
+
+            MDButton:
+                on_release: root.manager.current = "about"
+                pos_hint: {"center_x": .5}
+
+                MDButtonIcon:
+                    icon: 'information-outline'
+                MDButtonText:
+                    text: 'About'
+            
+            MDButton:
+                on_release: app.switch_theme()
+                pos_hint: {"center_x": .5}
+
+                MDButtonIcon:
+                    icon: 'theme-light-dark'
+                MDButtonText:
+                    text: 'Switch light/dark theme'
+

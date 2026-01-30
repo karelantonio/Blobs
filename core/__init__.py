@@ -12,17 +12,6 @@ from .resources import RESOURCES
 from .events import EVENTS
 
 
-class StartScreen(MDScreen):
-    pass
-
-
-class OverviewScreen(MDScreen):
-    pass
-
-
-class AboutScreen(MDScreen):
-    pass
-
 class NewEventScreen(MDScreen):
     event_tpl = ObjectProperty(EVENTS[0])
 

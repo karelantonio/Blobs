@@ -1,0 +1,33 @@
+#:kivy 2.3.1
+
+# The overview widget
+<OverviewScreen@MDScreen>:
+    BoxLayout:
+        orientation: 'vertical'
+
+        MDTopAppBar:
+            type: 'small'
+            pos_hint: {"center_x": .5, "center_y": .5}
+
+            MDTopAppBarLeadingButtonContainer:
+                MDActionTopAppBarButton:
+                    on_release: root.manager.current = 'start'
+                    icon: 'arrow-left'
+
+            MDTopAppBarTitle:
+                text: "Event list"
+                halign: 'center'
+
+            MDTopAppBarTrailingButtonContainer:
+                MDActionTopAppBarButton:
+                    on_release: root.manager.current = 'new_event'
+                    icon: 'plus'
+        # ^^^ end of the Top Bar
+        
+        BoxLayout:
+            orientation: 'vertical'
+
+            Label:
+                text: 'hello! world?'
+
+

@@ -1,0 +1,27 @@
+#:kivy 2.3.1
+
+# Brief description of the project
+<AboutScreen@MDScreen>:
+    AnchorLayout:
+        anchor_x: 'center'
+        anchor_y: 'center'
+
+        BoxLayout:
+            orientation: 'vertical'
+            size_hint: (0.4, 0.3)
+
+            Label:
+                color: '#000000'
+                font_size: sp(26)
+                text: 'About'
+
+            Label:
+                color: '#000000'
+                font_size: sp(24)
+                text: '1st semester programming project'
+
+            MDButton:
+                on_release: root.manager.current = "start"
+                MDButtonText:
+                    text: 'Go back'
+
