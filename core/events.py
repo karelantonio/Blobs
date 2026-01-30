@@ -19,7 +19,7 @@ EVENTS = [
     EventTemplate(
         name="Generate electricity",
         description="Send blobs to the power room to generate electricity. Without electricity blobs can't cook (Breaking bad reference) nor have water",
-        icon="res/img-evt-go-outside.jpg",
+        icon="res/img-evt-power.jpg",
         duration=1,
         requires=[
             Requirement(name="Blob", qty=2),
