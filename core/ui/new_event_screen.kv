@@ -24,100 +24,161 @@
                     on_release: root.manager.current = 'new_event'
                     icon: 'check'
 
-        MDBoxLayout:
-            pos_hint: {'y': 0}
-            orientation: 'vertical'
-            adaptive_height: False
-            spacing: dp(0)
-            padding: dp(4)
+        MDTabsPrimary:
+            id: tabs
+            pos_hint: {'center_x': .5, 'center_y': .5}
+            size_hint_y: 1
 
-            MDCard:
-                size_hint_y: None
-                radius: dp(26)
-                adaptive_height: True
-                on_release: root.show_event_chooser_dialog()
+            MDTabsItem:
+                MDTabsItemIcon:
+                    icon: 'information-outline'
+                MDTabsItemText:
+                    text: 'Event'
+            
+            MDTabsItem:
+                MDTabsItemIcon:
+                    icon: 'clock-outline'
+                MDTabsItemText:
+                    text: 'Time'
+            
+            MDTabsItem:
+                MDTabsItemIcon:
+                    icon: 'hammer'
+                MDTabsItemText:
+                    text: 'Resources'
 
+            MDDivider:
+
+            MDTabsCarousel:
+                id: tabs_content
+                
+                # TAB EVENT
                 MDBoxLayout:
-                    orientation: 'horizontal'
-
-                    FitImage:
-                        size_hint: .3, 1
-                        source: root.event_tpl_icon
-                        radius: dp(24), 0, 0, dp(24)
-
-                    Widget:
-                        size_hint_x: None
-                        width: dp(8)
+                    orientation: 'vertical'
 
                     MDBoxLayout:
                         orientation: 'vertical'
+                        adaptive_height: False
+                        spacing: dp(0)
+                        padding: dp(4)
 
-                        Widget:
+                        MDCard:
                             size_hint_y: None
-                            height: dp(8)
+                            radius: dp(26)
+                            adaptive_height: True
+                            on_release: root.show_event_chooser_dialog()
+
+                            MDBoxLayout:
+                                orientation: 'horizontal'
+
+                                FitImage:
+                                    size_hint: .3, 1
+                                    source: root.event_tpl_icon
+                                    radius: dp(24), 0, 0, dp(24)
+
+                                Widget:
+                                    size_hint_x: None
+                                    width: dp(8)
+
+                                MDBoxLayout:
+                                    orientation: 'vertical'
+
+                                    Widget:
+                                        size_hint_y: None
+                                        height: dp(8)
+
+                                    MDLabel:
+                                        text: root.event_tpl_name
+
+                                    MDLabel:
+                                        text: root.event_tpl_description
+                                    
+                                    Widget:
+                                        size_hint_y: None
+                                        height: dp(8)
+
+                        # End of the card boxlayout
 
                         MDLabel:
-                            text: root.event_tpl_name
-
-                        MDLabel:
-                            text: root.event_tpl_description
-                        
-                        Widget:
                             size_hint_y: None
-                            height: dp(8)
+                            font_style: 'Title'
+                            text: 'Requirements:'
 
-            # End of the card boxlayout
+                        MDRecycleView:
+                            id: requirements
+                            do_scroll_x: False
+                            do_scroll_y: True
+                            viewclass: 'NewEventReq'
 
-            # Requirements section
-            MDLabel:
-                size_hint_y: None
-                font_style: 'Headline'
-                text: 'Requirements:'
+                            RecycleBoxLayout:
+                                default_size_hint: 1, None
+                                default_size: None, dp(80)
+                                size_hint_y: None
+                                height: self.minimum_height
+                                orientation: 'vertical'
 
-            Widget:
-                size_hint_y: None
-                height: dp(4)
-
-            MDRecycleView:
-                id: requirements
-                size_hint_y: .5
-                do_scroll_x: False
-                do_scroll_y: True
-                viewclass: 'NewEventReq'
-
-                RecycleBoxLayout:
-                    default_size_hint: 1, None
-                    default_size: None, dp(80)
-                    size_hint_y: None
-                    height: self.minimum_height
+                # TAB TIME
+                MDBoxLayout:
+                    spacing: 0
+                    padding: dp(8)
                     orientation: 'vertical'
 
-            MDDivider:
-                size_hint_y: None
+                    MDLabel:
+                        text: 'Start time:'
+                        size_hint_y: None
+                        font_style: 'Title'
 
-            MDLabel:
-                size_hint_y: None
-                font_style: 'Headline'
-                text: 'Resources:'
+                    MDTextField:
+                        mode: 'filled'
+                        size_hint_y: None
 
-            Widget:
-                size_hint_y: None
-                height: dp(4)
+                        MDTextFieldHintText:
+                            text: 'Start Date'
 
-            MDRecycleView:
-                id: resources_rv
-                data: root.resources
-                size_hint_y: .5
-                do_scroll_x: False
-                do_scroll_y: True
-                viewclass: 'NewEventRes'
+                        MDTextFieldHelperText:
+                            text: 'Press the icon on the right'
+                    
+                    MDBoxLayout:
+                        padding: [0, dp(8), 0, 0]
+                        size_hint_y: None
 
-                RecycleBoxLayout:
-                    default_size_hint: 1, None
-                    default_size: None, dp(80)
-                    size_hint_y: None
-                    height: self.minimum_height
+                        MDTextField:
+                            mode: 'filled'
+                            size_hint_y: None
+
+                            MDTextFieldHintText:
+                                text: 'Duration (hours)'
+
+                            MDTextFieldHelperText:
+                                text: 'It must be an integer'
+
+                    Widget:
+                        size_hint_y: 1
+
+                # TAB RESOURCES
+                MDBoxLayout:
                     orientation: 'vertical'
+                    spacing: 0
+                    padding: dp(4)
+
+                    MDLabel:
+                        size_hint_y: None
+                        font_style: 'Title'
+                        text: 'Resources:'
+
+                    MDRecycleView:
+                        id: resources_rv
+                        data: root.resources
+                        do_scroll_x: False
+                        do_scroll_y: True
+                        viewclass: 'NewEventRes'
+
+                        RecycleBoxLayout:
+                            default_size_hint: 1, None
+                            default_size: None, dp(80)
+                            size_hint_y: None
+                            height: self.minimum_height
+                            orientation: 'vertical'
             
 
 <EventChooserDialog>:
