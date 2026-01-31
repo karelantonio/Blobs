@@ -3,7 +3,16 @@
 # New event screen
 <NewEventScreen>:
     BoxLayout:
+        id: content
         orientation: 'vertical'
+        canvas.before:
+            # The background image
+            Color:
+                rgba: app.theme_cls.surfaceColor
+            Rectangle:
+                pos: self.pos
+                size: self.size
+                source: "res/start-background.jpg"
         
         MDTopAppBar:
             type: 'small'
@@ -23,47 +32,76 @@
                     on_release: root.manager.current = 'new_event'
                     icon: 'check'
 
-        BoxLayout:
-            orientation: 'horizontal'
-            
-            # The left information panel
-            MDScrollView:
-                do_scroll_x: False
+        MDBoxLayout:
+            pos_hint: {'y': 0}
+            orientation: 'vertical'
+            adaptive_height: False
+            spacing: dp(0)
+            padding: dp(8)
+
+            MDCard:
+                size_hint_y: None
+                radius: dp(26)
+                adaptive_height: True
+                on_release: root.show_event_chooser_dialog()
 
                 MDBoxLayout:
+                    orientation: 'horizontal'
+
+                    FitImage:
+                        size_hint: .3, 1
+                        source: root.event_tpl_icon
+                        radius: dp(24), 0, 0, dp(24)
+
+                    Widget:
+                        size_hint_x: None
+                        width: dp(8)
+
+                    MDBoxLayout:
+                        orientation: 'vertical'
+
+                        Widget:
+                            size_hint_y: None
+                            height: dp(8)
+
+                        MDLabel:
+                            text: root.event_tpl_name
+
+                        MDLabel:
+                            text: root.event_tpl_description
+                        
+                        Widget:
+                            size_hint_y: None
+                            height: dp(8)
+
+            # End of the card boxlayout
+
+            # Requirements section
+            MDLabel:
+                size_hint_y: None
+                font_style: 'Headline'
+                text: 'Requirements:'
+
+            Widget:
+                size_hint_y: None
+                height: dp(4)
+
+            MDRecycleView:
+                id: requirements
+                size_hint_y: .3
+                do_scroll_x: False
+                do_scroll_y: True
+                viewclass: 'NewEventReq'
+
+                RecycleBoxLayout:
+                    default_size_hint: 1, None
+                    default_size: None, dp(100)
+                    size_hint_y: None
+                    height: self.minimum_height
                     orientation: 'vertical'
-                    adaptive_height: True
-                    padding: dp(8)
 
-                    MDCard:
-                        radius: dp(26)
-                        adaptive_height: True
-                        on_release: root.show_event_chooser_dialog()
-
-                        MDBoxLayout:
-                            orientation: 'horizontal'
-
-                            FitImage:
-                                size_hint: .3, 1
-                                source: root.event_tpl_icon
-                                radius: dp(24), 0, 0, dp(24)
-
-                            Widget:
-                                size_hint_x: None
-                                width: dp(8)
-
-                            MDBoxLayout:
-                                orientation: 'vertical'
-
-                                Widget:
-                                    size_hint_y: None
-                                    height: dp(8)
-
-                                MDLabel:
-                                    text: root.event_tpl_name
-
-                                MDLabel:
-                                    text: root.event_tpl_description
+            MDDivider:
+                size_hint_y: None
 
 <EventChooserDialog>:
     MDDialogHeadlineText:
@@ -71,7 +109,7 @@
 
     MDDialogContentContainer:
         orientation: 'vertical'
-        id: 'container'
+        id: container
     
 <EventChooserDialogItem>:
     on_release: self.selected()
@@ -82,3 +120,24 @@
     MDListItemSupportingText:
         text: root.title
 
+<NewEventReq>:
+    size_hint_y: None
+    orientation: 'horizontal'
+
+    # qnty
+    MDLabel:
+        size_hint_x: None
+        pos_hint_y: 0.5
+        text: root.qty
+
+    FitImage:
+        size_hint_x: None
+        source: root.icon
+
+    Widget:
+        size_hint: None, None
+        width: dp(8)
+
+    MDLabel:
+        font_style: 'Title'
+        text: root.name

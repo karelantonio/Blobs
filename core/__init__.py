@@ -5,12 +5,13 @@ from kivymd.uix.recycleview import MDRecycleView
 from kivymd.uix.label import MDLabel
 from kivymd.uix.dialog import MDDialog
 from kivymd.uix.list import MDListItem, MDListItemLeadingAvatar
+from kivymd.uix.boxlayout import MDBoxLayout
 from kivy.properties import ListProperty, ObjectProperty, StringProperty
 from kivy.uix.widget import Widget
 from kivy.uix.anchorlayout import AnchorLayout
 
 from .state import *
-from .resources import RESOURCES
+from .resources import RESOURCES, RESOURCES_AS_DICT
 from .events import EVENTS
 
 
@@ -41,17 +42,34 @@ class EventChooserDialog(MDDialog):
             ))
         super().open(*args, **kwa)
 
+class NewEventReq(MDBoxLayout):
+    name = StringProperty("")
+    icon = StringProperty("")
+    qty  = StringProperty("")
+
 class NewEventScreen(MDScreen):
-    event_tpl = EVENTS[0]
-    event_tpl_name = StringProperty(event_tpl.name)
-    event_tpl_description = StringProperty(event_tpl.description)
-    event_tpl_icon = StringProperty(event_tpl.icon)
+    event_tpl = None
+    event_tpl_name = StringProperty("Pick an event")
+    event_tpl_description = StringProperty("")
+    event_tpl_icon = StringProperty("")
 
     def set_event_tpl(self, ev):
         self.event_tpl = ev
         self.event_tpl_name = ev.name
         self.event_tpl_description = ev.description
         self.event_tpl_icon = ev.icon
+        self.update_reqs()
+    
+    def update_reqs(self):
+        items = [
+            {
+                "name": req.name,
+                "icon": RESOURCES_AS_DICT[req.name].icon,
+                "qty": f"{req.qty} x"
+            }
+            for req in self.event_tpl.requires
+        ]
+        self.ids.requirements.data = items
 
     def show_event_chooser_dialog(self):
         EventChooserDialog(selected_evt=self.set_event_tpl).open()

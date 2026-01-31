@@ -52,3 +52,5 @@ RESOURCES = [
         total=2,
     ),
 ]
+
+RESOURCES_AS_DICT = {res.name: res for res in RESOURCES}
