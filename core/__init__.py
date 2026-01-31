@@ -3,10 +3,13 @@ from kivymd.uix.screen import MDScreen
 from kivymd.uix.screenmanager import MDScreenManager
 from kivymd.uix.recycleview import MDRecycleView
 from kivymd.uix.label import MDLabel
+from kivymd.uix.button import MDButton
 from kivymd.uix.dialog import MDDialog
 from kivymd.uix.list import MDListItem, MDListItemLeadingAvatar
+from kivy.uix.behaviors import ButtonBehavior
+from kivymd.uix.behaviors import RectangularRippleBehavior
 from kivymd.uix.boxlayout import MDBoxLayout
-from kivy.properties import ListProperty, ObjectProperty, StringProperty
+from kivy.properties import ListProperty, ObjectProperty, StringProperty, NumericProperty
 from kivy.uix.widget import Widget
 from kivy.uix.anchorlayout import AnchorLayout
 
@@ -47,7 +50,17 @@ class NewEventReq(MDBoxLayout):
     icon = StringProperty("")
     qty  = StringProperty("")
 
+class NewEventRes(RectangularRippleBehavior, ButtonBehavior, MDBoxLayout):
+    name = StringProperty("")
+    icon = StringProperty("")
+    qty  = NumericProperty(0)
+
 class NewEventScreen(MDScreen):
+    resources = ListProperty([{
+        "name": res.name,
+        "icon": RESOURCES_AS_DICT[res.name].icon,
+        "qty": 0,
+    } for res in RESOURCES])
     event_tpl = None
     event_tpl_name = StringProperty("Pick an event")
     event_tpl_description = StringProperty("")

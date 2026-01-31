@@ -2,6 +2,15 @@
 
 # Here we should show the "Start" button, the "Load JSON" button and the "About" button
 <StartScreen@MDScreen>:
+
+    FloatLayout:
+        Image:
+            allow_stretch: True
+            keep_ratio: False
+            pos: root.pos
+            size: root.size
+            source: "res/start-background.jpg"
+
     AnchorLayout:
         anchor_x: 'center'
         anchor_y: 'center'

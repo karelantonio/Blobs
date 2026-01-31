@@ -8,10 +8,12 @@
 <RootWidget>:
     canvas.before:
         # The background image
+        Color:
+            rgba: root.theme_cls.backgroundColor
         Rectangle:
             pos: self.pos
             size: self.size
-            source: "res/start-background.jpg"
+#            source: "res/start-background.jpg"
 
     StartScreen:
         name: 'start'

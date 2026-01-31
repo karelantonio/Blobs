@@ -5,14 +5,6 @@
     BoxLayout:
         id: content
         orientation: 'vertical'
-        canvas.before:
-            # The background image
-            Color:
-                rgba: app.theme_cls.surfaceColor
-            Rectangle:
-                pos: self.pos
-                size: self.size
-                source: "res/start-background.jpg"
         
         MDTopAppBar:
             type: 'small'
@@ -37,7 +29,7 @@
             orientation: 'vertical'
             adaptive_height: False
             spacing: dp(0)
-            padding: dp(8)
+            padding: dp(4)
 
             MDCard:
                 size_hint_y: None
@@ -88,20 +80,45 @@
 
             MDRecycleView:
                 id: requirements
-                size_hint_y: .3
+                size_hint_y: .5
                 do_scroll_x: False
                 do_scroll_y: True
                 viewclass: 'NewEventReq'
 
                 RecycleBoxLayout:
                     default_size_hint: 1, None
-                    default_size: None, dp(100)
+                    default_size: None, dp(80)
                     size_hint_y: None
                     height: self.minimum_height
                     orientation: 'vertical'
 
             MDDivider:
                 size_hint_y: None
+
+            MDLabel:
+                size_hint_y: None
+                font_style: 'Headline'
+                text: 'Resources:'
+
+            Widget:
+                size_hint_y: None
+                height: dp(4)
+
+            MDRecycleView:
+                id: resources_rv
+                data: root.resources
+                size_hint_y: .5
+                do_scroll_x: False
+                do_scroll_y: True
+                viewclass: 'NewEventRes'
+
+                RecycleBoxLayout:
+                    default_size_hint: 1, None
+                    default_size: None, dp(80)
+                    size_hint_y: None
+                    height: self.minimum_height
+                    orientation: 'vertical'
+            
 
 <EventChooserDialog>:
     MDDialogHeadlineText:
@@ -129,6 +146,27 @@
         size_hint_x: None
         pos_hint_y: 0.5
         text: root.qty
+
+    FitImage:
+        size_hint_x: None
+        source: root.icon
+
+    Widget:
+        size_hint: None, None
+        width: dp(8)
+
+    MDLabel:
+        font_style: 'Title'
+        text: root.name
+
+<NewEventRes>:
+    size_hint_y: None
+    orientation: 'horizontal'
+
+    # qnty
+    MDLabel:
+        size_hint_x: None
+        text: f"{root.qty} x"
 
     FitImage:
         size_hint_x: None
