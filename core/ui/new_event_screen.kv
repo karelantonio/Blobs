@@ -241,11 +241,12 @@
 <NewEventRes>:
     size_hint_y: None
     orientation: 'horizontal'
+    on_release: self.show_qnt_picker()
 
     # qnty
     MDLabel:
         size_hint_x: None
-        text: f"{root.qty} x"
+        text: root.qty_text
 
     FitImage:
         size_hint_x: None
@@ -258,3 +259,38 @@
     MDLabel:
         font_style: 'Title'
         text: root.name
+
+<EventResQuantityPicker>:
+    MDDialogHeadlineText:
+        text: f'Select a new quantity for: {root.name}'
+
+    MDDialogContentContainer:
+        orientation: 'vertical'
+
+        MDSlider:
+            id: slider
+            size_hint_y: None
+            height: dp(8)
+            step: 1
+            min: 0
+            max: root.get_total()
+            value: root.qty
+            hint: True
+
+            MDSliderHandle:
+                
+            MDSliderValueLabel:
+
+        MDBoxLayout:
+            size_hint_y: None
+            orientation: 'horizontal'
+
+            Widget:
+                size_hint_x: 1
+
+            MDButton:
+                on_release: root.on_ok()
+                style: 'text'
+
+                MDButtonText:
+                    text: 'OK'
