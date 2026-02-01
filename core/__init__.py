@@ -6,7 +6,9 @@ from kivymd.uix.label import MDLabel
 from kivymd.uix.button import MDButton
 from kivymd.uix.dialog import MDDialog
 from kivymd.uix.list import MDListItem, MDListItemLeadingAvatar
+from kivymd.uix.pickers import MDDockedDatePicker, MDTimePickerDialVertical
 from kivy.uix.behaviors import ButtonBehavior
+from kivy.metrics import dp
 from kivymd.uix.behaviors import RectangularRippleBehavior
 from kivymd.uix.boxlayout import MDBoxLayout
 from kivy.properties import ListProperty, ObjectProperty, StringProperty, NumericProperty
@@ -87,6 +89,20 @@ class NewEventScreen(MDScreen):
     def show_event_chooser_dialog(self):
         EventChooserDialog(selected_evt=self.set_event_tpl).open()
 
+    def show_date_picker(self, wid, focus):
+        if not focus:
+            return
+
+        def on_ok(datp):
+            datp.dismiss()
+            self.ids.date.text = f"{datp.day}/{datp.month}/{datp.year}"
+
+        datp = MDDockedDatePicker(on_ok=on_ok)
+        datp.pos = [
+            wid.center_x - datp.width/2,
+            wid.y - datp.height - dp(32)
+        ]
+        datp.open()
 
 class RootWidget(MDScreenManager):
     state = ObjectProperty(State())

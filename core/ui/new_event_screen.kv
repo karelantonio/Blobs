@@ -129,14 +129,31 @@
                         font_style: 'Title'
 
                     MDTextField:
+                        id: date
                         mode: 'filled'
                         size_hint_y: None
+                        on_focus: root.show_date_picker(self, self.focus)
 
                         MDTextFieldHintText:
                             text: 'Start Date'
 
                         MDTextFieldHelperText:
-                            text: 'Press the icon on the right'
+                            text: 'DD/MM/YYYY'
+                    
+                    MDBoxLayout:
+                        padding: [0, dp(8), 0, 0]
+                        size_hint_y: None
+
+                        MDTextField:
+                            id: time
+                            mode: 'filled'
+                            size_hint_y: None
+
+                            MDTextFieldHintText:
+                                text: 'Time'
+
+                            MDTextFieldHelperText:
+                                text: 'HH:MM:SS'
                     
                     MDBoxLayout:
                         padding: [0, dp(8), 0, 0]
