@@ -7,6 +7,7 @@ from kivymd.uix.button import MDButton
 from kivymd.uix.dialog import MDDialog
 from kivymd.uix.list import MDListItem, MDListItemLeadingAvatar
 from kivymd.uix.pickers import MDModalDatePicker, MDTimePickerDialVertical
+from kivymd.uix.snackbar import MDSnackbar, MDSnackbarText
 from kivy.uix.behaviors import ButtonBehavior
 from kivy.metrics import dp
 from kivymd.uix.behaviors import RectangularRippleBehavior
@@ -14,6 +15,8 @@ from kivymd.uix.boxlayout import MDBoxLayout
 from kivy.properties import ListProperty, ObjectProperty, StringProperty, NumericProperty
 from kivy.uix.widget import Widget
 from kivy.uix.anchorlayout import AnchorLayout
+from datetime import datetime
+from re import match
 
 from .state import *
 from .resources import RESOURCES, RESOURCES_AS_DICT
@@ -152,6 +155,72 @@ class NewEventScreen(MDScreen):
         self.resources = copy
         self.ids.resources_rv.data = copy
         self.ids.resources_rv.refresh_from_data()
+
+    def check_and_create_event_dammit(self):
+        def err_snack(msg):
+            MDSnackbar(
+                MDSnackbarText(
+                    text=msg,
+                ),
+                y=dp(24),
+                pos_hint={"center_x": 0.5},
+                size_hint_x=0.5,
+            ).open()
+
+        # Check a event template has been selected
+        if self.event_tpl is None:
+            err_snack("Error: Pick an event template first")
+            return
+        
+        # Check if the date is set
+        date: str = self.ids.date.text.strip()
+        if len(date)==0:
+            err_snack("Error: Pick a start date")
+            return
+        if match("\\d+/\\d+/\\d+", date) is None:
+            err_snack("Error: Date does not look valid (must be DD/MM/YY)")
+            return
+        
+        # The time
+        time: str = self.ids.time.text.strip()
+        if len(time)==0:
+            err_snack("Error: Pick a time of the day")
+            return
+        if match("\\d+:\\d+", time) is None:
+            err_snack("Error: Time does not look valid (must be DD/MM/YY)")
+            return
+        dt = datetime.strptime(f"{date} {time}:00", "%d/%m/%Y %H:%M:%S")
+
+        # Now, the duration
+        duration = self.ids.duration.text.strip()
+        if len(duration)==0:
+            err_snack("Error: Specify a duration")
+            return
+        try:
+            duration = int(duration)
+        except:
+            err_snack("Error: Duration does not look like a valid integer")
+            return
+
+        if duration<0:
+            err_snack("Error: Duration must be positive")
+            return
+        if duration==0:
+            err_snack("Error: Duration cannot be zero nor negative, must be positive")
+            return
+
+        # Now, must satisfy all requirements
+        for req in self.event_tpl.requires:
+            name, qty = req.name, req.qty
+
+            for res in self.resources:
+                if res["name"] != name:
+                    continue
+                if res["qty"] < qty:
+                    err_snack(f"Error: Requirement '{name}' is not satisfied (need to add {qty - res['qty']} more)")
+                    return
+                break
+
 
 class RootWidget(MDScreenManager):
     state = ObjectProperty(State())

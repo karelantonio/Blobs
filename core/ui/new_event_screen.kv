@@ -21,7 +21,7 @@
 
             MDTopAppBarTrailingButtonContainer:
                 MDActionTopAppBarButton:
-                    on_release: root.manager.current = 'new_event'
+                    on_release: root.check_and_create_event_dammit()
                     icon: 'check'
 
         MDTabsPrimary:
@@ -161,6 +161,7 @@
                         size_hint_y: None
 
                         MDTextField:
+                            id: duration
                             mode: 'filled'
                             size_hint_y: None
 
