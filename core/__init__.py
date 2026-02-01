@@ -97,7 +97,10 @@ class NewEventScreen(MDScreen):
             datp.dismiss()
             self.ids.date.text = f"{datp.day}/{datp.month}/{datp.year}"
 
-        datp = MDModalDatePicker(on_ok=on_ok)
+        def on_cancel(datp):
+            datp.dismiss()
+
+        datp = MDModalDatePicker(on_ok=on_ok, on_cancel=on_cancel)
         datp.open()
 
     def show_time_picker(self, wid, focus):
@@ -108,7 +111,10 @@ class NewEventScreen(MDScreen):
             timp.dismiss()
             self.ids.time.text = f"{timp.hour}:{timp.minute}"
 
-        timp = MDTimePickerDialVertical(on_ok=on_ok)
+        def on_cancel(timp):
+            timp.dismiss()
+
+        timp = MDTimePickerDialVertical(on_ok=on_ok, on_cancel=on_cancel)
         timp.open()
 
 class RootWidget(MDScreenManager):
