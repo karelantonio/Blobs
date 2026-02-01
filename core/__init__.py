@@ -18,9 +18,9 @@ from kivy.uix.anchorlayout import AnchorLayout
 from datetime import datetime
 from re import match
 
-from .state import *
+from .events import load_events_from_disk, save_events_to_disk, Resource, Event
 from .resources import RESOURCES, RESOURCES_AS_DICT
-from .events import EVENTS
+from .event_templates import EVENTS
 
 
 class EventResQuantityPicker(MDDialog):
@@ -223,11 +223,12 @@ class NewEventScreen(MDScreen):
 
 
 class RootWidget(MDScreenManager):
-    state = ObjectProperty(State())
+    pass
 
 
 class MainApp(MDApp):
     rootw = None
+    events = load_events_from_disk()
 
     def build(self):
         self.rootw = RootWidget()
