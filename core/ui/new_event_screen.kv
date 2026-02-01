@@ -148,12 +148,13 @@
                             id: time
                             mode: 'filled'
                             size_hint_y: None
+                            on_focus: root.show_time_picker(self, self.focus)
 
                             MDTextFieldHintText:
                                 text: 'Time'
 
                             MDTextFieldHelperText:
-                                text: 'HH:MM:SS'
+                                text: 'HH:MM'
                     
                     MDBoxLayout:
                         padding: [0, dp(8), 0, 0]

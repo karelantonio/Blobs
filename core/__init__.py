@@ -6,7 +6,7 @@ from kivymd.uix.label import MDLabel
 from kivymd.uix.button import MDButton
 from kivymd.uix.dialog import MDDialog
 from kivymd.uix.list import MDListItem, MDListItemLeadingAvatar
-from kivymd.uix.pickers import MDDockedDatePicker, MDTimePickerDialVertical
+from kivymd.uix.pickers import MDModalDatePicker, MDTimePickerDialVertical
 from kivy.uix.behaviors import ButtonBehavior
 from kivy.metrics import dp
 from kivymd.uix.behaviors import RectangularRippleBehavior
@@ -97,12 +97,19 @@ class NewEventScreen(MDScreen):
             datp.dismiss()
             self.ids.date.text = f"{datp.day}/{datp.month}/{datp.year}"
 
-        datp = MDDockedDatePicker(on_ok=on_ok)
-        datp.pos = [
-            wid.center_x - datp.width/2,
-            wid.y - datp.height - dp(32)
-        ]
+        datp = MDModalDatePicker(on_ok=on_ok)
         datp.open()
+
+    def show_time_picker(self, wid, focus):
+        if not focus:
+            return
+        
+        def on_ok(timp):
+            timp.dismiss()
+            self.ids.time.text = f"{timp.hour}:{timp.minute}"
+
+        timp = MDTimePickerDialVertical(on_ok=on_ok)
+        timp.open()
 
 class RootWidget(MDScreenManager):
     state = ObjectProperty(State())
