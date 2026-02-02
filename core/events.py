@@ -21,12 +21,14 @@ class Resource:
 
 @dataclass
 class Event:
+    name: str
     date: datetime
     hours: int
     resources: list[Resource]
 
     def to_dict(self):
         return {
+            "name": self.name,
             "date": self.date.strftime("%m/%d/%Y %H:%M:%S"),
             "hours": self.hours,
             "resources": [
@@ -36,6 +38,7 @@ class Event:
 
     def from_dict(dct)->"Event":
         return Event(
+            name=dct["name"],
             date=datetime.strptime(dct["date"], "%m/%d/%Y %H:%M:%S"),
             hours=dct["hours"],
             resources=[Resource.from_dict(x) for x in dct["resources"]]

@@ -37,3 +37,7 @@ EVENTS = [
         ]
     )
 ]
+
+EVENTS_AS_DICT = {
+    evt.name: evt for evt in EVENTS
+}

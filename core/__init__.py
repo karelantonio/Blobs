@@ -20,7 +20,7 @@ from re import match
 
 from .events import load_events_from_disk, save_events_to_disk, Resource, Event
 from .resources import RESOURCES, RESOURCES_AS_DICT
-from .event_templates import EVENTS
+from .event_templates import EVENTS, EVENTS_AS_DICT
 
 
 class EventResQuantityPicker(MDDialog):
@@ -222,17 +222,42 @@ class NewEventScreen(MDScreen):
                 break
 
 
+class EventItem(RectangularRippleBehavior, ButtonBehavior, MDBoxLayout):
+    name = StringProperty("")
+    start = StringProperty("")
+    duration = StringProperty("")
+    icon = StringProperty("")
+    idx = NumericProperty(0)
+
+
 class RootWidget(MDScreenManager):
     pass
 
 
 class MainApp(MDApp):
     rootw = None
-    events = load_events_from_disk()
+    events = ObjectProperty(load_events_from_disk())
 
     def build(self):
+        self.bind(events=self.events_changed)
         self.rootw = RootWidget()
+        print(self.events)
+        events_data = [
+            {
+                "name": evt.name,
+                "start": evt.date.strftime("%d/%m/%Y %H:%M"),
+                "duration": f"{evt.hours} hrs",
+                "icon": EVENTS_AS_DICT[evt.name].icon,
+                "idx": i
+            }
+            for i, evt in enumerate(self.events)
+        ]
+        self.rootw.ids.overview.ids.events_rv.data = events_data
         return self.rootw
+    
+    def events_changed(self):
+        # Save and update the recyclerview
+        print("Events changed")
 
     def switch_theme(self):
         self.theme_cls.theme_style = (

@@ -23,11 +23,40 @@
                     on_release: root.manager.current = 'new_event'
                     icon: 'plus'
         # ^^^ end of the Top Bar
+
+        MDDivider:
+            size_hint_y: None
         
-        BoxLayout:
-            orientation: 'vertical'
+        MDRecycleView:
+            id: events_rv
+            do_scroll_x: False
+            do_scroll_y: True
+            viewclass: 'EventItem'
 
-            Label:
-                text: 'hello! world?'
+            RecycleBoxLayout:
+                default_size_hint: 1, None
+                default_size: None, dp(80)
+                size_hint_y: None
+                height: self.minimum_height
+                orientation: 'vertical'
 
+<EventItem>:
+    orientation: 'horizontal'
 
+    FitImage:
+        size_hint: None, 1
+        source: root.icon
+
+    Widget:
+        size_hint: None, None
+        width: dp(8)
+
+    MDBoxLayout:
+        orientation: 'vertical'
+
+        MDLabel:
+            font_style: 'Title'
+            text: root.name
+
+        MDLabel:
+            text: f'{root.start} ({root.duration})'
