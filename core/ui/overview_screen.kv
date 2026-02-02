@@ -42,6 +42,7 @@
 
 <EventItem>:
     orientation: 'horizontal'
+    on_release: app.show_event_info_dialog(self.idx)
 
     FitImage:
         size_hint: None, 1
@@ -60,3 +61,70 @@
 
         MDLabel:
             text: f'{root.start} until {root.end} ({root.duration})'
+
+<EventInfoDialog>:
+    MDDialogHeadlineText:
+        text: f'Event: {root.evt.name}'
+
+    MDDialogContentContainer:
+        orientation: 'vertical'
+
+        MDLabel:
+            size_hint: 1, None
+            font_style: 'Title'
+            text: f'Start: {root.evt.date.strftime("%d/%m/%Y %H:%M")}\nEnd: {root.evt.end_date().strftime("%d/%m/%Y %H:%M")}\nTotal hours: {root.evt.hours}'
+
+        MDDivider:
+            size_hint: 1, None
+
+        MDLabel:
+            size_hint: 1, None
+            font_style: 'Title'
+            text: f'Resources associated:'
+        
+        MDRecycleView:
+            size_hint: 1, None
+            do_scroll_x: False
+            do_scroll_y: True
+            data: root.get_resources()
+            viewclass: 'EventInfoRes'
+
+            RecycleBoxLayout:
+                default_size_hint: 1, None
+                default_size: None, dp(80)
+                size_hint_y: None
+                height: self.minimum_height
+                orientation: 'vertical'
+
+        MDBoxLayout:
+            size_hint: 1, 0.5
+
+            Widget:
+                size_hint: 1, None
+
+            MDButton:
+                MDButtonIcon:
+                    icon: 'trash-can-outline'
+                MDButtonText:
+                    text: 'Delete'
+
+<EventInfoRes>:
+    size_hint_y: None
+    orientation: 'horizontal'
+
+    # qnty
+    MDLabel:
+        size_hint_x: None
+        text: f"{root.evt_res.qty}x "
+
+    FitImage:
+        size_hint: None, 1
+        source: root.res_icon
+
+    Widget:
+        size_hint: None, None
+        width: dp(8)
+
+    MDLabel:
+        font_style: 'Title'
+        text: root.evt_res.name

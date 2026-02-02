@@ -251,6 +251,17 @@ class EventItem(RectangularRippleBehavior, ButtonBehavior, MDBoxLayout):
     idx = NumericProperty(0)
 
 
+class EventInfoDialog(MDDialog):
+    evt = ObjectProperty(Event(name="", date=datetime.now(), hours=1, resources=[]))
+
+    def get_resources(self):
+        return [{"evt_res": res, "res_icon": RESOURCES_AS_DICT[res.name].icon} for res in self.evt.resources]
+
+
+class EventInfoRes(RectangularRippleBehavior, ButtonBehavior, MDBoxLayout):
+    evt_res = ObjectProperty(Resource(name="Generate electricity", qty=1))
+    res_icon = StringProperty("")
+
 class RootWidget(MDScreenManager):
     pass
 
@@ -262,7 +273,6 @@ class MainApp(MDApp):
     def build(self):
         self.bind(events=self.events_changed)
         self.rootw = RootWidget()
-        print(self.events)
         events_data = [
             {
                 "name": evt.name,
@@ -285,3 +295,6 @@ class MainApp(MDApp):
         self.theme_cls.theme_style = (
             "Dark" if self.theme_cls.theme_style == "Light" else "Light"
         )
+
+    def show_event_info_dialog(self, idx):
+        EventInfoDialog(evt=self.events[idx]).open()
