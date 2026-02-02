@@ -26,6 +26,9 @@ class Event:
     hours: int
     resources: list[Resource]
 
+    def end_date(self)->datetime:
+        return self.date + timedelta(hours=self.hours)
+
     def to_dict(self):
         return {
             "name": self.name,

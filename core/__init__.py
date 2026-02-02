@@ -18,6 +18,7 @@ from kivy.uix.anchorlayout import AnchorLayout
 from datetime import datetime
 from re import match
 
+from .coldetect import check_exclusions, check_inclusions, check_collisions
 from .events import load_events_from_disk, save_events_to_disk, Resource, Event
 from .resources import RESOURCES, RESOURCES_AS_DICT
 from .event_templates import EVENTS, EVENTS_AS_DICT
@@ -221,10 +222,30 @@ class NewEventScreen(MDScreen):
                     return
                 break
 
+        # Check for exclusion, inclusion and collision errors
+        inclerr = check_inclusions(self.resources)
+        if inclerr is not None:
+            err_snack("Error: " + inclerr)
+            return
+        
+        exclerr = check_exclusions(self.resources)
+        if exclerr is not None:
+            err_snack("Error: " + exclerr)
+            return
+
+        colerr = check_collisions(dt, duration, self.resources)
+        if colerr is not None:
+            err_snack("Error: " + colerr)
+            return
+
+        # Everything OK, add and pop (and reset) this screen
+        pass
+
 
 class EventItem(RectangularRippleBehavior, ButtonBehavior, MDBoxLayout):
     name = StringProperty("")
     start = StringProperty("")
+    end = StringProperty("")
     duration = StringProperty("")
     icon = StringProperty("")
     idx = NumericProperty(0)
@@ -246,6 +267,7 @@ class MainApp(MDApp):
             {
                 "name": evt.name,
                 "start": evt.date.strftime("%d/%m/%Y %H:%M"),
+                "end": evt.end_date().strftime("%d/%m/%Y %H:%M"),
                 "duration": f"{evt.hours} hrs",
                 "icon": EVENTS_AS_DICT[evt.name].icon,
                 "idx": i
