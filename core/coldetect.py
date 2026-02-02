@@ -12,7 +12,12 @@ def check_exclusions(rrss: list)->str|None:
                 return f"{res1.name} must not be used at the same time as: {resd2['name']}"
 
 def check_inclusions(rrss: list)->str|None:
-    pass # TODO
+    names = set([r["name"] for r in rrss if r["qty"]>0])
+    for r in rrss:
+        incl = RESOURCES_AS_DICT[r["name"]].includes
+        for req in incl:
+            if req not in names:
+                return f"Resource {r['name']} requires: {req}"
 
 def check_collisions(start: datetime, hours: int, rrss: list)->str|None:
     # Assume we've added this event, then there should be no conflicts
