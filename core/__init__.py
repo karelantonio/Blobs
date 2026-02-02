@@ -138,7 +138,11 @@ class NewEventScreen(MDScreen):
         
         def on_ok(timp):
             timp.dismiss()
-            self.ids.time.text = f"{timp.hour}:{timp.minute}"
+            if timp.am_pm=="am":
+                hr = int(timp.hour) % 12
+            else:
+                hr = 12 if timp.hour == "12" else (int(timp.hour) + 12)
+            self.ids.time.text = f"{hr}:{timp.minute}"
 
         def on_cancel(timp):
             timp.dismiss()
