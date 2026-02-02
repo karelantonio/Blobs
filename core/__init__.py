@@ -239,8 +239,11 @@ class NewEventScreen(MDScreen):
             return
 
         # Everything OK, add and pop (and reset) this screen
-        pass
-
+        ev = Event(name=self.event_tpl.name, date=dt, hours=duration, resources=[
+            Resource(name=res["name"], qty=res["qty"]) for res in self.resources if res["qty"]>0
+        ])
+        MDApp.get_running_app().events = MDApp.get_running_app().events + [ev]
+        self.manager.current = "overview"
 
 class EventItem(RectangularRippleBehavior, ButtonBehavior, MDBoxLayout):
     name = StringProperty("")
@@ -273,6 +276,10 @@ class MainApp(MDApp):
     def build(self):
         self.bind(events=self.events_changed)
         self.rootw = RootWidget()
+        self.reload_data()
+        return self.rootw
+
+    def reload_data(self):
         events_data = [
             {
                 "name": evt.name,
@@ -285,11 +292,13 @@ class MainApp(MDApp):
             for i, evt in enumerate(self.events)
         ]
         self.rootw.ids.overview.ids.events_rv.data = events_data
-        return self.rootw
+        self.rootw.ids.overview.ids.events_rv.refresh_from_data()
     
-    def events_changed(self):
+    def events_changed(self, *args, **kwa):
         # Save and update the recyclerview
-        print("Events changed")
+        save_events_to_disk(self.events)
+        self.reload_data()
+
 
     def switch_theme(self):
         self.theme_cls.theme_style = (
