@@ -256,9 +256,16 @@ class EventItem(RectangularRippleBehavior, ButtonBehavior, MDBoxLayout):
 
 class EventInfoDialog(MDDialog):
     evt = ObjectProperty(Event(name="", date=datetime.now(), hours=1, resources=[]))
+    idx = NumericProperty(0)
 
     def get_resources(self):
         return [{"evt_res": res, "res_icon": RESOURCES_AS_DICT[res.name].icon} for res in self.evt.resources]
+
+    def delete_clicked(self):
+        cp = MDApp.get_running_app().events.copy()
+        del(cp[self.idx])
+        MDApp.get_running_app().events = cp
+        self.dismiss()
 
 
 class EventInfoRes(RectangularRippleBehavior, ButtonBehavior, MDBoxLayout):
@@ -306,4 +313,4 @@ class MainApp(MDApp):
         )
 
     def show_event_info_dialog(self, idx):
-        EventInfoDialog(evt=self.events[idx]).open()
+        EventInfoDialog(evt=self.events[idx], idx=idx).open()
