@@ -8,6 +8,8 @@ def check_exclusions(rrss: list)->str|None:
         res1 = RESOURCES_AS_DICT[resd1["name"]]
 
         for resd2 in rrss:
+            if resd2["qty"]==0:
+                continue
             if resd2['name'] in res1.excludes:
                 return f"{res1.name} must not be used at the same time as: {resd2['name']}"
 

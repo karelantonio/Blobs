@@ -35,6 +35,17 @@ EVENTS = [
         requires=[
             Requirement(name="Blob", qty=1)
         ]
+    ),
+    EventTemplate(
+        name="Water treatment",
+        description="Used to get some water from water partially contamined",
+        icon="res/img-evt-watertreat.jpg",
+        duration=3,
+        requires=[
+            Requirement(name="Blob", qty=2),
+            Requirement(name="Water bottle", qty=2),
+            Requirement(name="Chlorine", qty=1),
+        ]
     )
 ]
 
