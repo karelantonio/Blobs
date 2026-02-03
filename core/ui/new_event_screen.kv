@@ -171,6 +171,23 @@
                             MDTextFieldHelperText:
                                 text: 'It must be an integer'
 
+                    MDBoxLayout:
+                        padding: [0, dp(8), 0, 0]
+                        size_hint: 1, None
+                        orientation: 'horizontal'
+                        halign: 'center'
+
+                        Widget:
+                            size_hint_x: 1
+
+                        MDButton:
+                            size_hint: None, None
+                            on_release: root.search_hole_clicked()
+                            MDButtonIcon:
+                                icon: 'card-search-outline'
+                            MDButtonText:
+                                text: 'Search hole'
+
                     Widget:
                         size_hint_y: 1
 

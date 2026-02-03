@@ -18,6 +18,7 @@ from kivy.uix.anchorlayout import AnchorLayout
 from datetime import datetime
 from re import match
 
+from .holefind import find_hole
 from .coldetect import check_exclusions, check_inclusions, check_collisions
 from .events import load_events_from_disk, save_events_to_disk, Resource, Event
 from .resources import RESOURCES, RESOURCES_AS_DICT
@@ -248,6 +249,40 @@ class NewEventScreen(MDScreen):
         ])
         MDApp.get_running_app().events = MDApp.get_running_app().events + [ev]
         self.manager.current = "overview"
+
+    def search_hole_clicked(self):
+        def err_snack(msg):
+            MDSnackbar(
+                MDSnackbarText(
+                    text=msg,
+                ),
+                y=dp(24),
+                pos_hint={"center_x": 0.5},
+                size_hint_x=0.5,
+            ).open()
+
+        # Assert the duration has been specified
+        duration = self.ids.duration.text.strip()
+        if len(duration)==0:
+            err_snack("Error: Specify a duration and some resources")
+            return
+        try:
+            duration = int(duration)
+        except:
+            err_snack("Error: Duration does not look like a valid integer")
+            return
+
+        if duration<0:
+            err_snack("Error: Duration must be positive")
+            return
+        if duration==0:
+            err_snack("Error: Duration cannot be zero nor negative, must be positive")
+            return
+        
+        # TODO: Check if at least some resource has been selected
+        date = find_hole(duration, self.resources)
+        self.ids.date.text = f"{date.day}/{date.month}/{date.year}"
+        self.ids.time.text = f"{date.hour}:{date.minute}"
 
 class EventItem(RectangularRippleBehavior, ButtonBehavior, MDBoxLayout):
     name = StringProperty("")
